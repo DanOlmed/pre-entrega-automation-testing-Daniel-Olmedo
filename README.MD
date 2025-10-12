@@ -53,12 +53,6 @@ Entrar en la carpeta del proyecto:
 
 cd TestingQA-Automation
 
-
-Instalar las dependencias de Python:
-
-pip install -r requirements.txt
-
-
 Alternativamente, instalar manualmente:
 
 pip install selenium pytest
