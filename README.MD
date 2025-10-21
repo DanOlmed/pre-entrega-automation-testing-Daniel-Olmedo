@@ -68,7 +68,10 @@ Ejecución de las pruebas
 Abrir la terminal o consola en la carpeta raíz del proyecto.
 
 Ejecutar todos los tests:
+Primer método: 
+Para ejecutar todos los tests y ademas generar el reporte, se debe correr el archivo run_tests_files.py
 
+Segundo método: 
 python -m pytest -s tests
 
 
