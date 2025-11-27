@@ -2,24 +2,32 @@
 
 ## Propósito
 
-El objetivo de este proyecto es **demostrar las habilidades adquiridas en automatización de pruebas**.  
-Incluye scripts que validan funcionalidades de un sitio web de ejemplo, usando buenas prácticas de testing con **Python**, **Selenium** y **pytest**.
+
+El objetivo de este proyecto es demostrar habilidades adquiridas en automatización de pruebas web y API.  
+Incluye pruebas E2E con Selenium, manejo de datos externos, generación de logs, uso de Faker, comunicación con APIs y aplicación de buenas prácticas utilizando Page Object Model (POM), pytest y utilidades reutilizables.
 
 Este proyecto sirve como demostración de:
 
 - Automatización de pruebas end-to-end en una aplicación web.
-- Organización de scripts y funciones reutilizables.
-- Uso de frameworks modernos de testing y herramientas de control de versiones.
+- Automatización de pruebas API externas.
+- Lectura de datos desde archivos CSV y JSON.
+- Generación de datos dinámicos con Faker.
+- Implementación de logs centralizados.
+- Organización modular con Page Object Model.
+- Uso de frameworks de testing y control de versiones con Git/GitHub.
 
 ---
 
 ## Herramientas utilizadas
 
-- **Python**  
-- **Selenium**  
-- **Google Chrome WebDriver**  
-- **pytest**  
-- **Git** y **GitHub** para respaldo y versionado  
+- **Python**
+- **Selenium**
+- **pytest**
+- **Faker**
+- **Requests** (para pruebas API)
+- **Google Chrome WebDriver**
+- **Git y GitHub**
+- **logging** (Python, implementación propia en `utils/logger.py`)
 
 ---
 
@@ -27,26 +35,47 @@ Este proyecto sirve como demostración de:
 
 ```text
 TestingQA-Automation/
-│
-├── utils/                  # Funciones reutilizables
-│   ├── __init__.py
-│   ├── driver_setup.py     # Configuración y creación del driver de Selenium
-│   └── login.py      # Función de login común para los tests
-│   └── title_check.py # Función para chequear el título
-├── tests/                  # Scripts de prueba
-│   ├── __init__.py
-│   ├── test_login.py       # Test de login: validación de URL y credenciales
-│   ├── test_inventary.py  # Test de inventario: validación de título y productos
-│   └── test_badge.py     # Test de carrito: añadir producto y verificar contador
-│
-└── README.md               # Documentación del proyecto
 
+├── utils/ # Funciones reutilizables
+│ ├── init.py
+│ ├── driver_setup.py # Configuración del driver Selenium
+│ ├── login.py # (Versión antigua, aún puede usarse si aplica)
+│ ├── title_check.py # Función para validar títulos
+│ ├── json_reader.py # Lectura de archivos JSON
+│ ├── data.py # Lectura de archivos CSV / configuración
+│ └── logger.py # Logger central del proyecto
+
+├── pages/ # Page Object Model (POM)
+│ ├── login_page.py
+│ ├── inventory_page.py
+│ └── cart_page.py
+
+├── datos/
+│ ├── data_login.csv # Datos de prueba para login
+│ └── productos.json # Datos de productos
+
+├── logs/
+│ └── suite.log # Log general generado durante la ejecución
+
+├── tests/ # Scripts de prueba
+│ ├── test_login.py # Login clásico
+│ ├── test_login_faker.py # Login usando Faker
+│ ├── test_inventary.py # Validación de inventario
+│ ├── test_badge.py # Carrito (UI)
+│ ├── test_badge_json.py # Validación carrito usando datos JSON
+│ └── test_api_reqres.py # Test API externa Reqres
+
+├── conftest.py # Fixtures para pytest
+
+├── run_tests_files.py # Ejecuta los tests y genera reporte HTML
+
+└── README.md
 
 Instalación de dependencias
 
 Clonar el repositorio:
 
-git clone <URL_DEL_REPOSITORIO>
+git clone <https://github.com/DanOlmed/pre-entrega-automation-testing-Daniel-Olmedo.git>
 
 
 Entrar en la carpeta del proyecto:
@@ -55,7 +84,15 @@ cd TestingQA-Automation
 
 Alternativamente, instalar manualmente:
 
-pip install selenium pytest
+pip install selenium pytest faker requests
+
+Dependencias adicionales que usa el proyecto:
+
+faker → genera nombres, mails, contraseñas falsas.
+
+requests → permite hacer pruebas API.
+
+logging → ya viene integrado con Python, pero se implementó un logger personalizado en utils/logger.py.
 
 
 Descargar e instalar Chrome WebDriver compatible con tu versión de Chrome:
@@ -91,44 +128,109 @@ python -m pytest -s tests/test_login.py
 Descripción de los tests
 1. test_login.py
 
-Propósito: Validar que el login funcione con credenciales correctas (standard_user / secret_sauce).
+Login con credenciales válidas.
 
-Verificaciones:
+Verifica URL final.
 
-La URL contiene /inventory.html tras el login.
+Imprime mensaje de éxito.
 
-Imprime mensaje de éxito en consola.
+2. test_login_faker.py
 
-2. test_inventary.py
+Login generado dinámicamente con Faker.
 
-Propósito: Explorar el inventario tras el login.
+Útil para pruebas negativas o de validación.
 
-Verificaciones:
+3. test_inventary.py
 
-El título de la sección es “Products”.
+Revisa inventario tras el login.
 
-Al menos un producto se encuentra listado.
+Verifica título “Products”.
 
-Imprime nombre y precio del primer producto.
+Valida que existan productos.
 
-3. test_badge.py
+4. test_badge.py
 
-Propósito: Validar la funcionalidad del carrito.
+Añade un producto al carrito.
 
-Verificaciones:
+Verifica badge = 1.
 
-Añade el primer producto al carrito.
+Comprueba que aparece en el carrito.
 
-Comprueba que el contador del carrito muestra 1.
+5. test_badge_json.py
 
-Verifica que el producto agregado aparece listado.
+Lee datos desde productos.json.
 
-Buenas prácticas
+Valida información del carrito usando datos externos.
 
-Separar funciones reutilizables en utils/ para evitar código repetido.
+6. test_api_reqres.py
 
-Usar pytest fixtures para crear y cerrar instancias del navegador.
+Prueba API pública Reqres con Requests.
 
-Mantener un control de versiones con Git y respaldar en GitHub.
+Verifica respuesta, códigos y estructura JSON.
 
-Evitar caracteres especiales en print() si se ejecuta en Windows sin UTF-8.
+Útil para demostrar habilidades API testing.
+
+Nuevas implementaciones destacadas
+✔ Logger centralizado
+
+Se implementó un logger en utils/logger.py que:
+
+genera el archivo logs/suite.log,
+
+registra pasos, errores y estados de ejecución,
+
+mejora la trazabilidad de los tests.
+
+✔ Uso de Faker
+
+Permite generar datos dinámicos:
+
+nombres
+
+emails
+
+contraseñas
+
+usuarios aleatorios para pruebas negativas
+
+✔ Lectura de datos externos
+
+Ahora los tests pueden leer:
+
+CSV → credenciales (datos/data_login.csv)
+
+JSON → productos del carrito (datos/productos.json)
+
+✔ Tests API agregados
+
+Se incorporó un módulo para probar la API Reqres usando Requests.
+
+✔ Page Object Model (POM)
+
+Se añadieron clases para representar:
+
+LoginPage
+
+InventoryPage
+
+CartPage
+
+Esto mejora la mantenibilidad y escalabilidad del proyecto.
+
+
+
+Buenas prácticas aplicadas
+
+Reutilización de funciones dentro de utils/.
+
+Uso de Page Object Model para mejor organización.
+
+Uso de fixtures en conftest.py.
+
+Uso de logs centralizados.
+
+Uso de datos externos para test parametrizados.
+
+Separación clara entre tests UI, tests con datos y tests API.
+
+Control de versiones con Git y respaldo en GitHub.
