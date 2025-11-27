@@ -44,19 +44,15 @@ TestingQA-Automation/
 │ ├── json_reader.py # Lectura de archivos JSON
 │ ├── data.py # Lectura de archivos CSV / configuración
 │ └── logger.py # Logger central del proyecto
-
 ├── pages/ # Page Object Model (POM)
 │ ├── login_page.py
 │ ├── inventory_page.py
 │ └── cart_page.py
-
 ├── datos/
 │ ├── data_login.csv # Datos de prueba para login
 │ └── productos.json # Datos de productos
-
 ├── logs/
 │ └── suite.log # Log general generado durante la ejecución
-
 ├── tests/ # Scripts de prueba
 │ ├── test_login.py # Login clásico
 │ ├── test_login_faker.py # Login usando Faker
@@ -64,14 +60,14 @@ TestingQA-Automation/
 │ ├── test_badge.py # Carrito (UI)
 │ ├── test_badge_json.py # Validación carrito usando datos JSON
 │ └── test_api_reqres.py # Test API externa Reqres
-
 ├── conftest.py # Fixtures para pytest
-
 ├── run_tests_files.py # Ejecuta los tests y genera reporte HTML
-
 └── README.md
 
-Instalación de dependencias
+```
+---
+
+## Instalación de dependencias
 
 Clonar el repositorio:
 
@@ -80,52 +76,56 @@ git clone <https://github.com/DanOlmed/pre-entrega-automation-testing-Daniel-Olm
 
 Entrar en la carpeta del proyecto:
 
-cd TestingQA-Automation
++ cd TestingQA-Automation
 
 Alternativamente, instalar manualmente:
 
-pip install selenium pytest faker requests
++ pip install selenium pytest faker requests
 
 Dependencias adicionales que usa el proyecto:
 
-faker → genera nombres, mails, contraseñas falsas.
++ faker → genera nombres, mails, contraseñas falsas.
 
-requests → permite hacer pruebas API.
++ requests → permite hacer pruebas API.
 
-logging → ya viene integrado con Python, pero se implementó un logger personalizado en utils/logger.py.
++ logging → ya viene integrado con Python, pero se implementó un logger personalizado en utils/logger.py.
 
 
-Descargar e instalar Chrome WebDriver compatible con tu versión de Chrome:
++ Descargar e instalar Chrome WebDriver compatible con tu versión de Chrome:
 Descargar ChromeDriver
 
-Colocar el ejecutable en la carpeta del proyecto o en una ruta incluida en el PATH.
++ Colocar el ejecutable en la carpeta del proyecto o en una ruta incluida en el PATH.
 
-Ejecución de las pruebas
+## Ejecución de las pruebas
 
-Abrir la terminal o consola en la carpeta raíz del proyecto.
++ Abrir la terminal o consola en la carpeta raíz del proyecto.
 
-Ejecutar todos los tests:
-Primer método: 
+### Ejecutar todos los tests:
++ Primer método: 
 Para ejecutar todos los tests y ademas generar el reporte, se debe correr el archivo run_tests_files.py
 
-Segundo método: 
-python -m pytest -s tests
++ Segundo método: 
+```
+python -m pytest -s tests 
 
-
--s permite que se vean los print() en consola.
+ -s permite que se vean los print() en consola.
 
 Todos los archivos test_*.py dentro de tests/ serán detectados automáticamente.
+```
 
-Generar un reporte HTML opcional:
-
+### Generar un reporte HTML opcional:
+```
 python -m pytest --html=report.html -s tests
+```
 
+### Para ejecutar un test específico:
 
-Para ejecutar un test específico:
-
+```
 python -m pytest -s tests/test_login.py
+```
 
-Descripción de los tests
+### Descripción de los tests
+```
 1. test_login.py
 
 Login con credenciales válidas.
@@ -169,29 +169,30 @@ Prueba API pública Reqres con Requests.
 Verifica respuesta, códigos y estructura JSON.
 
 Útil para demostrar habilidades API testing.
+```
 
-Nuevas implementaciones destacadas
+## Nuevas implementaciones destacadas
 ✔ Logger centralizado
 
 Se implementó un logger en utils/logger.py que:
 
-genera el archivo logs/suite.log,
++ genera el archivo logs/suite.log,
 
-registra pasos, errores y estados de ejecución,
++ registra pasos, errores y estados de ejecución,
 
-mejora la trazabilidad de los tests.
++ mejora la trazabilidad de los tests.
 
 ✔ Uso de Faker
 
 Permite generar datos dinámicos:
 
-nombres
++ nombres
 
-emails
++ emails
 
-contraseñas
++ contraseñas
 
-usuarios aleatorios para pruebas negativas
++ usuarios aleatorios para pruebas negativas
 
 ✔ Lectura de datos externos
 
@@ -208,7 +209,7 @@ Se incorporó un módulo para probar la API Reqres usando Requests.
 ✔ Page Object Model (POM)
 
 Se añadieron clases para representar:
-
+```
 LoginPage
 
 InventoryPage
@@ -217,20 +218,20 @@ CartPage
 
 Esto mejora la mantenibilidad y escalabilidad del proyecto.
 
+```
 
+## Buenas prácticas aplicadas
 
-Buenas prácticas aplicadas
++ Reutilización de funciones dentro de utils/.
 
-Reutilización de funciones dentro de utils/.
++ Uso de Page Object Model para mejor organización.
 
-Uso de Page Object Model para mejor organización.
++ Uso de fixtures en conftest.py.
 
-Uso de fixtures en conftest.py.
++ Uso de logs centralizados.
 
-Uso de logs centralizados.
++ Uso de datos externos para test parametrizados.
 
-Uso de datos externos para test parametrizados.
++ Separación clara entre tests UI, tests con datos y tests API.
 
-Separación clara entre tests UI, tests con datos y tests API.
-
-Control de versiones con Git y respaldo en GitHub.
++ Control de versiones con Git y respaldo en GitHub.
